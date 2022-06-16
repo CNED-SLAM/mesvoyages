@@ -2,6 +2,7 @@
 namespace App\Controller\admin;
 
 use App\Entity\Visite;
+use App\Form\VisiteType;
 use App\Repository\VisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,27 @@ class AdminVoyagesController extends AbstractController {
     public function suppr(Visite $visite): Response{
         $this->repository->remove($visite, true);
         return $this->redirectToRoute('admin.voyages');
+    }
+    
+    /**
+     * @Route("/admin/edit/{id}", name="admin.voyage.edit")
+     * @param Visite $visite
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Visite $visite, Request $request): Response{
+        $formVisite = $this->createForm(VisiteType::class, $visite);
+
+        $formVisite->handleRequest($request);
+        if($formVisite->isSubmitted() && $formVisite->isValid()){
+            $this->repository->add($visite, true);
+            return $this->redirectToRoute('admin.voyages');
+        }     
+
+        return $this->render("admin/admin.voyage.edit.html.twig", [
+            'visite' => $visite,
+            'formvisite' => $formVisite->createView()
+        ]);        
     }
     
 }
