@@ -3,12 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\VisiteRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=VisiteRepository::class)
+ * @Vich\Uploadable
  */
 class Visite
 {
@@ -59,6 +67,27 @@ class Visite
      */
     private $environnements;
 
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="visites", fileNameProperty="imageName")
+     * 
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string|null
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+    
     public function __construct()
     {
         $this->environnements = new ArrayCollection();
@@ -93,12 +122,12 @@ class Visite
         return $this;
     }
 
-    public function getDatecreation(): ?\DateTimeInterface
+    public function getDatecreation(): ?DateTimeInterface
     {
         return $this->datecreation;
     }
 
-    public function setDatecreation(?\DateTimeInterface $datecreation): self
+    public function setDatecreation(?DateTimeInterface $datecreation): self
     {
         $this->datecreation = $datecreation;
 
@@ -184,5 +213,60 @@ class Visite
         $this->environnements->removeElement($environnement);
 
         return $this;
+    }
+    
+    function getImageFile(): ?File {
+        return $this->imageFile;
+    }
+
+    function getImageName(): ?string {
+        return $this->imageName;
+    }
+
+    function setImageFile(?File $imageFile) {
+        $this->imageFile = $imageFile;
+        if($this->imageFile instanceof UploadedFile){
+            $this->updated_at = new DateTime('now');
+        }
+        return $this;
+    }
+
+    function setImageName(?string $imageName) {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context){
+        $image = $this->getImageFile();
+        if($image != null && $image != ""){
+            $tailleImage = @getimagesize($image);
+            if(!($tailleImage==false)){
+                if($tailleImage[0]>1300 || $tailleImage[1]>1300){
+                    $context->buildViolation("Cette image est trop grande (1300x1300 max)")
+                            ->atPath('imageFile')
+                            ->addViolation();
+                }
+            }else{
+                $context->buildViolation("Ce n'est pas une image")
+                        ->atPath('imageFile')
+                        ->addViolation();
+            }
+        }
     }
 }
