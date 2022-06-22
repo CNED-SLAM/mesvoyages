@@ -1,4 +1,54 @@
 {% extends "basefront.html.twig" %}
+
 {% block body %}
-<h1>Page d'accueil</h1>
+    <p class="mt-3">
+        <h3>Bienvenue sur mon site personnel de présentation de mes voyages.</h3>
+    </p>
+    <p class="mt-3">
+        Dans la partie <a href="{{ path('voyages') }}">Voyages</a>, vous pouvez voir la liste des visites que j'ai faites dans différentes villes.<br/>
+        A chaque fois j'ai précisé la ville visitée, le pays, j'ai mis une note (entre 0 et 20) et il y a aussi la date de la visite.<br/>
+        Vous pouvez trier la liste en fonction des villes, des pays, des notes et des dates, 
+        aussi bien dans l'ordre croissant que décroissant.<br/>
+        Vous pouvez aussi filtrer les visites par rapport à une ville ou un pays.<br/>
+        En cliquant sur la ville de la visite, vous pourrez avoir plus d'informations dessus :<br/>
+        températures min et max, une description de la visite, les environnements (montagne, mer, désert...) et une photo.<br/>
+        Enfin, vous pouvez me contacter avec le formulaire de <a href="{{ path('contact') }}">Contact</a>.
+    </p>
+    <p>
+        Voici mes 2 derniers voyages :
+    </p>
+    <table>
+        <tr>
+            {% for visite in visites %}
+                <td style="vertical-align: text-top; width: 50%">
+                    <div class="row">
+                        <div class="col">
+                            <!-- emplacement photo -->
+                            {% if visite.imagename %}
+                                <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}" 
+                                     class="card-img-top" style="width:100%;height:auto;">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <p>{{ visite.datecreationstring }}</p>
+                            <h5 class="text-primary">
+                                <a href="{{ path('voyages.showone', {id:visite.id}) }}">{{ visite.ville }}</a>
+                            </h5>
+                            <p>{{ visite.pays }}</p>
+                            {% if visite.note>=10 %}
+                                <div class="text-success">{{ visite.note }}/20</div>
+                            {% else %}
+                                <div class="text-danger">{{ visite.note }}/20</div>
+                            {% endif %}
+                            t° entre {{ visite.tempmin }}° et {{ visite.tempmax }}°<br />
+                            <strong>Environnements :</strong><br/>
+                            {% for environnement in visite.environnements %}
+                                {{ environnement.nom }}
+                            {% endfor %}
+                        </div>    
+                    </div>                    
+                </td>
+            {% endfor %}    
+        </tr>
+    </table>
 {% endblock %}
