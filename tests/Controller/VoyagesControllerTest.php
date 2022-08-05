@@ -11,15 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VoyagesControllerTest extends WebTestCase {
     
+    const CHEMIN_VOYAGES = '/voyages';
+    
     public function testAccesPage(){
         $client = static::createClient();
-        $client->request('GET', '/voyages');
+        $client->request('GET', self::CHEMIN_VOYAGES);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
     
     public function testContenuPage(){
         $client = static::createClient();
-        $crawler = $client->request('GET', '/voyages');
+        $crawler = $client->request('GET', self::CHEMIN_VOYAGES);
         $this->assertSelectorTextContains('h1', 'Mes voyages');
         $this->assertSelectorTextContains('th', 'Ville');
         $this->assertCount(4, $crawler->filter('th'));
@@ -28,7 +30,7 @@ class VoyagesControllerTest extends WebTestCase {
     
     public function testLinkVille(){
         $client = static::createClient();
-        $client->request('GET', '/voyages');
+        $client->request('GET', self::CHEMIN_VOYAGES);
         // clic sur le lien (le nom d'une ville)
         $client->clickLink('Los Angeles');
         // récupération du résultat du clic
@@ -43,7 +45,7 @@ class VoyagesControllerTest extends WebTestCase {
     
     public function testFiltreVill(){
         $client = static::createClient();
-        $client->request('GET', '/voyages');
+        $client->request('GET', self::CHEMIN_VOYAGES);
         // simulation de la soumission du formaulaire
         $crawler = $client->submitForm('filtrer', [
             'recherche' => 'Las Vegas'

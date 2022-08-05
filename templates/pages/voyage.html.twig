@@ -21,7 +21,7 @@
             <div>
                 {% if visite.imagename %}
                     <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}"
-                         class="card-img-top" style="width:100%;height:auto;">
+                         class="card-img-top" style="width:100%;height:auto;" alt="image de la visite">
                 {% else %}
                     <p>(aucune image)</p>
                 {% endif %}            

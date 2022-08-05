@@ -14,6 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author emds
  */
 class AdminEnvironnementController extends AbstractController {
+    
+    const PAGE_ADMIN_ENVIRONNEMENTS = "admin/admin.environnements.html.twig";
+    const ROUTE_ENVIRONNEMENTS = "admin.environnements";
 
     /**
      * 
@@ -35,7 +38,7 @@ class AdminEnvironnementController extends AbstractController {
      */
     public function index(): Response{
         $environnements = $this->repository->findAll();
-        return $this->render("admin/admin.environnements.html.twig", [
+        return $this->render(self::PAGE_ADMIN_ENVIRONNEMENTS, [
             'environnements' => $environnements
         ]);
     }
@@ -47,7 +50,7 @@ class AdminEnvironnementController extends AbstractController {
      */
     public function suppr(Environnement $environnement): Response{
         $this->repository->remove($environnement, true);
-        return $this->redirectToRoute('admin.environnements');
+        return $this->redirectToRoute(self::ROUTE_ENVIRONNEMENTS);
     }
     
     /**
@@ -60,7 +63,7 @@ class AdminEnvironnementController extends AbstractController {
         $environnement = new Environnement();
         $environnement->setNom($nomEnvironnement);
         $this->repository->add($environnement, true);
-        return $this->redirectToRoute('admin.environnements');       
+        return $this->redirectToRoute(self::ROUTE_ENVIRONNEMENTS);       
     }        
     
 }

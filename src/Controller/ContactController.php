@@ -17,6 +17,10 @@ use Symfony\Component\Mime\Email;
  */
 class ContactController extends AbstractController {
     
+    const PAGE_CONTACT = "pages/contact.html.twig";
+    const PAGE_EMAIL = "pages/_email.html.twig";
+    const ROUTE_CONTACT = "contact";
+    
     /**
      * @Route("/contact", name="contact")
      * @return Response
@@ -30,10 +34,10 @@ class ContactController extends AbstractController {
             // envoi du mail
             $this->sendEmail($mailer, $contact);
             $this->addFlash('succes', 'message envoyé');
-            return $this->redirectToRoute('contact');
+            return $this->redirectToRoute(self::ROUTE_CONTACT);
         }
 
-        return $this->render("pages/contact.html.twig", [
+        return $this->render(self::PAGE_CONTACT, [
             'contact' => $contact,
             'formcontact' => $formContact->createView()
         ]);
@@ -50,7 +54,7 @@ class ContactController extends AbstractController {
             ->to('contact@mesvoyages.com')
             ->subject('Message du site de voyages')
             ->html($this->renderView(
-                    'pages/_email.html.twig', [
+                    self::PAGE__EMAIL, [
                         'contact' => $contact
                     ]
                 ),

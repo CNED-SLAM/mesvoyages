@@ -16,6 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminVoyagesController extends AbstractController {
 
+    const PAGE_ADMIN_VOYAGES = "admin/admin.voyages.html.twig";
+    const PAGE_ADMIN_VOYAGE_EDIT = "admin/admin.voyage.edit.html.twig";
+    const PAGE_ADMIN_VOYAGE_AJOUT = "admin/admin.voyage.ajout.html.twig";
+    const ROUTE_ADMIN_VOYAGES = "admin.voyages";
+    
     /**
      * 
      * @var VisiteRepository
@@ -36,7 +41,7 @@ class AdminVoyagesController extends AbstractController {
      */
     public function index(): Response{
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
-        return $this->render("admin/admin.voyages.html.twig", [
+        return $this->render(self::PAGE_ADMIN_VOYAGES, [
             'visites' => $visites
         ]);
     }
@@ -48,7 +53,7 @@ class AdminVoyagesController extends AbstractController {
      */
     public function suppr(Visite $visite): Response{
         $this->repository->remove($visite, true);
-        return $this->redirectToRoute('admin.voyages');
+        return $this->redirectToRoute(self::ROUTE_ADMIN_VOYAGES);
     }
     
     /**
@@ -63,10 +68,10 @@ class AdminVoyagesController extends AbstractController {
         $formVisite->handleRequest($request);
         if($formVisite->isSubmitted() && $formVisite->isValid()){
             $this->repository->add($visite, true);
-            return $this->redirectToRoute('admin.voyages');
+            return $this->redirectToRoute(self::ROUTE_ADMIN_VOYAGES);
         }     
 
-        return $this->render("admin/admin.voyage.edit.html.twig", [
+        return $this->render(self::PAGE_ADMIN_VOYAGE_EDIT, [
             'visite' => $visite,
             'formvisite' => $formVisite->createView()
         ]);        
@@ -84,10 +89,10 @@ class AdminVoyagesController extends AbstractController {
         $formVisite->handleRequest($request);
         if($formVisite->isSubmitted() && $formVisite->isValid()){
             $this->repository->add($visite, true);
-            return $this->redirectToRoute('admin.voyages');
+            return $this->redirectToRoute(self::ROUTE_ADMIN_VOYAGES);
         }     
 
-        return $this->render("admin/admin.voyage.ajout.html.twig", [
+        return $this->render(self::PAGE_ADMIN_VOYAGE_AJOUT, [
             'visite' => $visite,
             'formvisite' => $formVisite->createView()
         ]);        

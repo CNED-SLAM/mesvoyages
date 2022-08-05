@@ -259,7 +259,7 @@ class Visite
         $image = $this->getImageFile();
         if($image != null && $image != ""){
             $tailleImage = @getimagesize($image);
-            if(!($tailleImage==false)){
+            if($tailleImage){
                 if($tailleImage[0]>1300 || $tailleImage[1]>1300){
                     $context->buildViolation("Cette image est trop grande (1300x1300 max)")
                             ->atPath('imageFile')

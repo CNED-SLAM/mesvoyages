@@ -17,16 +17,16 @@
     <p>
         Voici mes 2 derniers voyages :
     </p>
-    <table>
-        <tr>
+    <div clss="container">
+        <div class="row">
             {% for visite in visites %}
-                <td style="vertical-align: text-top; width: 50%">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <!-- emplacement photo -->
                             {% if visite.imagename %}
                                 <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}" 
-                                     class="card-img-top" style="width:100%;height:auto;">
+                                     class="card-img-top" style="width:100%;height:auto;" alt="image de la visite">
                             {% endif %}
                         </div>
                         <div class="col">
@@ -47,8 +47,8 @@
                             {% endfor %}
                         </div>    
                     </div>                    
-                </td>
+                </div>
             {% endfor %}    
-        </tr>
-    </table>
+        </div>
+    </div>
 {% endblock %}

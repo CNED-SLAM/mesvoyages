@@ -14,6 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VoyagesController extends AbstractController{
 
+    const PAGE_VOYAGES = "pages/voyages.html.twig";
+    const PAGE_VOYAGE = "pages/voyage.html.twig";
+    const ROUTE_VOYAGES = "voyages";
+    
     /**
      * 
      * @var VisiteRepository
@@ -34,7 +38,7 @@ class VoyagesController extends AbstractController{
      */
     public function index(): Response{
         $visites = $this->repository->findAllOrderBy('datecreation', 'DESC');
-        return $this->render("pages/voyages.html.twig", [
+        return $this->render(self::PAGE_VOYAGES, [
             'visites' => $visites
         ]);
     }
@@ -47,7 +51,7 @@ class VoyagesController extends AbstractController{
      */
     public function sort($champ, $ordre): Response{
         $visites = $this->repository->findAllOrderBy($champ, $ordre);
-        return $this->render("pages/voyages.html.twig", [
+        return $this->render(self::PAGE_VOYAGES, [
             'visites' => $visites
         ]);
     }
@@ -62,11 +66,11 @@ class VoyagesController extends AbstractController{
         if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token'))){
             $valeur = $request->get("recherche");
             $visites = $this->repository->findByEqualValue($champ, $valeur);
-            return $this->render("pages/voyages.html.twig", [
+            return $this->render(self::PAGE_VOYAGES, [
                 'visites' => $visites
             ]);
         }
-        return $this->redirectToRoute("voyages");
+        return $this->redirectToRoute(self::ROUTE_VOYAGES);
     }
     
     /**
@@ -76,7 +80,7 @@ class VoyagesController extends AbstractController{
      */
     public function showOne($id): Response{
         $visite = $this->repository->find($id);
-        return $this->render("pages/voyage.html.twig", [
+        return $this->render(self::PAGE_VOYAGE, [
             'visite' => $visite
         ]);
     }

@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AccueilController extends AbstractController{
     
+    const PAGE_ACCUEIL = "pages/accueil.html.twig";
+    
     /**
      *
      * @var VisiteRepository
@@ -33,7 +35,7 @@ class AccueilController extends AbstractController{
      */
     public function index(): Response{
         $visites = $this->repository->findAllLasted(2);
-        return $this->render("pages/accueil.html.twig", [
+        return $this->render(self::PAGE_ACCUEIL, [
             'visites' => $visites
         ]);   
     }

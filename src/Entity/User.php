@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return $this->getUserIdentifier();
     }
 
     public function setUsername(string $username): self
@@ -70,11 +70,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $lesRoles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $lesRoles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_unique($lesRoles);
     }
 
     public function setRoles(array $roles): self

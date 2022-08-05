@@ -13,14 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class VisiteRepositoryTest extends KernelTestCase {
     
+    const VILLE = "New York";
+    const PAYS = "USA";
+    
     /**
      * Récupère le repository de Visite
      * @return VisiteRepository
      */
     public function recupRepository(): VisiteRepository{
         self::bootKernel();
-        $repository = self::getContainer()->get(VisiteRepository::class);
-        return $repository;
+        return self::getContainer()->get(VisiteRepository::class);
     }
     
     /**
@@ -28,11 +30,10 @@ class VisiteRepositoryTest extends KernelTestCase {
      * @return Visite
      */
     public function newVisite(): Visite{
-        $visite = (new Visite())
-                ->setVille("New York")
-                ->setPays("USA")
+        return (new Visite())
+                ->setVille(self::VILLE)
+                ->setPays(self::PAYS)
                 ->setDatecreation(new DateTime("now"));
-        return $visite;
     }
     
     public function testNbVisites(){
@@ -62,9 +63,9 @@ class VisiteRepositoryTest extends KernelTestCase {
         $repository = $this->recupRepository();
         $visite = $this->newVisite();
         $repository->add($visite, true);
-        $visites = $repository->findByEqualValue("ville", "New York");
+        $visites = $repository->findByEqualValue("ville", self::VILLE);
         $nbVisites = count($visites);
         $this->assertEquals(1, $nbVisites);
-        $this->assertEquals("New York", $visites[0]->getVille());
+        $this->assertEquals(self::VILLE, $visites[0]->getVille());
     }
 }
