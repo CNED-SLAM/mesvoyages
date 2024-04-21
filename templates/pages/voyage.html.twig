@@ -1,0 +1,27 @@
+{% extends "basefront.html.twig" %}
+{% block body %}
+    <div class="row mt-3">
+        <div class="col">
+            <h5> {{ visite.datecreationstring }}</h5>
+            <h1 class="text-primary mt-5">{{ visite.ville }}</h1>
+            <h3>{{ visite.pays }}</h3>
+            {% if visite.note>=10 %}
+                <h2 class="text-success mt-5">{{ visite.note }}/20</h2>
+            {% else %}
+                <h2 class="text-danger mt-5">{{ visite.note }}/20</h2>
+            {% endif %}
+            <h5 class="mt-5">t° entre {{ visite.tempmin }}° et {{ visite.tempmax }}°</h5>                  
+        </div>
+        <div class="col">
+            <!-- emplacement photo -->       
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col md-12">
+            <p><strong>mon avis :</strong></p>
+            <p>
+                {{ visite.avis }}
+            </p>
+        </div>
+    </div>
+{% endblock %}
