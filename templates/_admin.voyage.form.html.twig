@@ -1,0 +1,30 @@
+{{ form_start(formvisite) }}
+    <div class="row">
+        <div class="col">             
+            <div class="row">
+                <div class="col-auto">
+                    {{ form_row(formvisite.datecreation) }}                                                  
+                </div>
+                <div class="col">
+                    {{ form_row(formvisite.note) }}
+                </div>
+                <div class="col">
+                    {{ form_row(formvisite.tempmin) }}
+                </div>
+                <div class="col">
+                    {{ form_row(formvisite.tempmax) }}
+                </div>
+            </div>
+            {{ form_row(formvisite.ville) }}
+            {{ form_row(formvisite.pays) }}
+        </div>
+        <div class="col">
+            <!-- emplacement image -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(formvisite.avis) }}
+        </div>
+    </div>            
+{{ form_end(formvisite) }}
