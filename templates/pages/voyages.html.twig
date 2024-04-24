@@ -9,7 +9,8 @@
                     <a href="{{ path('voyages.sort', {champ:'ville', ordre:'DESC'}) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">></a>                    
                     <form class="form-inline mt-1" method="POST" action="{{ path('voyages.findallequal', {champ:'ville'}) }}">
                         <div class="form-group mr-1 mb-2">
-                            <input type="text" class="sm" name="recherche">                        
+                            <input type="text" class="sm" name="recherche">   
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_ville') }}"> 
                             <button type="submit" class="btn btn-primary mb-2 btn-sm">filtrer</button>
                         </div>
                     </form>                    
@@ -20,7 +21,8 @@
                     <a href="{{ path('voyages.sort', {champ:'pays', ordre:'DESC'}) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">></a>                    
                     <form class="form-inline mt-1" method="POST" action="{{ path('voyages.findallequal', {champ:'pays'}) }}">
                         <div class="form-group mr-1 mb-2">
-                            <input type="text" class="sm" name="recherche">                        
+                            <input type="text" class="sm" name="recherche">  
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_pays') }}">
                             <button type="submit" class="btn btn-primary mb-2 btn-sm">filtrer</button>
                         </div>
                     </form> 
