@@ -18,6 +18,8 @@
         Voici mes 2 derniers voyages :
     </p>
     <table>
+        <caption>2 voyages</caption>
+        <thead></thead>
         <tr>
             {% for visite in visites %}
                 <td style="vertical-align: text-top; width: 50%">
@@ -26,7 +28,7 @@
                             <!-- emplacement photo -->
                             {% if visite.imagename %}
                                 <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}" 
-                                     class="card-img-top" style="width:100%;height:auto;">
+                                     class="card-img-top" alt="image du voyage" style="width:100%;height:auto;">
                             {% endif %}
                         </div>
                         <div class="col">
