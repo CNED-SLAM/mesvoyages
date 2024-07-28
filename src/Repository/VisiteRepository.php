@@ -90,5 +90,5 @@ class VisiteRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
     }
-    
+     
 }
